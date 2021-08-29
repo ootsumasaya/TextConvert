@@ -25,3 +25,7 @@ https://qiita.com/Kosen-amai/items/c2542fe0d0b62d108096
 ・C#でクリップボードから文字列を取得する
 
 https://water2litter.net/rye/post/c_io_from_clipboard/
+
+
+# 今後の課題
+1...Nやi.e.などに対応する
