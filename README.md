@@ -15,7 +15,7 @@
 これで変換後のテキストがクリップボードにコピーされます。
 
 
-＃参考文献
+＃ 参考文献
 ・Windows GUIプログラミング入門17 変換ツール
 
 https://qiita.com/Kosen-amai/items/c2542fe0d0b62d108096
