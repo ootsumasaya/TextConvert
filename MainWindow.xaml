@@ -38,26 +38,25 @@
         </Grid.ColumnDefinitions>
 
         <local:BeforeTextView             Grid.Row="0"
-            Grid.Column="0" DataContext="{Binding BViewModel}"/>
+            Grid.Column="0" DataContext="{Binding BeforeViewModel}"/>
 
         <StackPanel Grid.Row="0" Grid.Column="1">
             <Button
                 x:Name="paste_button"
-                Click="Button_Paste_Click"
-                Content="ペースト" />
+                Content="ペースト" 
+                Command="{Binding PasteCommand}"/>
             <Button
                 x:Name="copy_button"
-                Command="{Binding CopyCommand}"
-                Content="コピー" />
+                Content="コピー" 
+                Command="{Binding CopyCommand}"/>
             <Button
                 x:Name="clear_button"
-                Click="Button_Clear_Click"
                 Content="クリア"
-                IsEnabled="{Binding ClearButtonIsEnable.Value}" />
+                Command="{Binding ClearCommand}" />
         </StackPanel>
 
         <local:AfterTextView  Grid.Row="0"
-            Grid.Column="2" DataContext="{Binding AViewModel}"/>
+            Grid.Column="2" DataContext="{Binding AfterViewModel}"/>
         
     </Grid>
 

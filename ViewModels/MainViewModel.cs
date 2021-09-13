@@ -21,18 +21,24 @@ namespace TextConvert.ViewModels
         public ReactiveProperty<string> AfterTextProperty { get; }
 
         //変更前テキストのViewModelを持つReactiveProperty
-        public BeforeViewModel BViewModel { get; }
+        public BeforeViewModel BeforeViewModel { get; }
         //変更後テキストのViewModelを持つReactiveProperty
-        public AfterViewModel AViewModel { get; }
+        public AfterViewModel AfterViewModel { get; }
 
-        //コピーボタンを押したときの動作
-        public ReactiveCommand CopyCommand { get; }
         //コピーボタンの有効無効
         public ReactiveProperty<bool> CanCopy { get; }
-
+        //コピーボタンを押したときの動作
+        public ReactiveCommand CopyCommand { get; }
 
         //クリアボタンの有効無効
-        public ReactiveProperty<bool> ClearButtonIsEnable { get; }
+        public ReactiveProperty<bool> CanClear { get; }
+        //クリアボタンを押したときの動作
+        public ReactiveCommand ClearCommand { get; }
+
+        //ペーストボタンの有効無効
+        public ReactiveProperty<bool> CanPaste { get; }
+        //ペーストボタンの動作
+        public ReactiveCommand PasteCommand { get; }
 
 
         //ViewModelの定義
@@ -53,28 +59,59 @@ namespace TextConvert.ViewModels
                                                     .ToReactiveProperty()
                                                     .AddTo(compositeDisposable);
 
-            //出力の変更を検知してCanCopyのTrueFalseを変更
+            //出力の変更を検知してコピーボタンの有効無効
             CanCopy = AfterTextProperty.Select(x => string.IsNullOrWhiteSpace(x) == false)
                                        .ToReactiveProperty()
                                        .AddTo(compositeDisposable);
-
-            //Cancopyの変更を検知してコピーボタンの有効無効
             CopyCommand = CanCopy.ToReactiveCommand()
                                  .AddTo(compositeDisposable);
+
+            //コピーボタンの動作
             CopyCommand.Subscribe(() => Clipboard.SetText(AfterTextProperty.Value));
 
-
-            //入力と出力の変更を検知してClearの有効無効
-            ClearButtonIsEnable = Observable.CombineLatest(BeforeTextProperty,
+            //入力と出力の変更を検知してクリアボタンの有効無効
+            CanClear = Observable.CombineLatest(BeforeTextProperty,
                                                            AfterTextProperty,
                                                            (x, y) => string.IsNullOrWhiteSpace(x) == false || string.IsNullOrWhiteSpace(y) == false)
                                             .ToReactiveProperty()
                                             .AddTo(compositeDisposable);
+            ClearCommand = CanClear.ToReactiveCommand()
+                                   .AddTo(compositeDisposable);
+
+            //クリアボタンの動作
+            ClearCommand.Subscribe(() =>
+            {
+                //入力と出力をクリア
+                BeforeAfterTextModel.BeforeText = "";
+                BeforeAfterTextModel.AfterText = "";
+            });
+
+            //ペーストボタンの有効無効
+            CanPaste = new ReactiveProperty<bool>(true).AddTo(compositeDisposable);
+            PasteCommand = CanPaste.ToReactiveCommand()
+                                   .AddTo(compositeDisposable);
+
+            //ペーストボタンの動作
+            PasteCommand.Subscribe(() =>
+            {
+                // クリップボードからオブジェクトを取得
+                IDataObject ClipboardData = Clipboard.GetDataObject();
+                // テキストデータかどうか確認
+                if (ClipboardData.GetDataPresent(DataFormats.Text))
+                {
+                    // オブジェクトからテキストを取得
+                    BeforeAfterTextModel.BeforeText = (string)ClipboardData.GetData(DataFormats.Text);
+                }
+                else
+                {
+                    MessageBox.Show("コピーしたデータが文字列ではありません");
+                }
+            });
 
             //BeforeViewModelの作成
-            BViewModel = new BeforeViewModel(BeforeAfterTextModel);
+            BeforeViewModel = new BeforeViewModel(BeforeAfterTextModel).AddTo(compositeDisposable);
             //AfterViewModelの作成
-            AViewModel = new AfterViewModel(BeforeAfterTextModel);
+            AfterViewModel = new AfterViewModel(BeforeAfterTextModel).AddTo(compositeDisposable);
 
         }
 
