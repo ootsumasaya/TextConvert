@@ -2,6 +2,7 @@
 using Reactive.Bindings.Extensions;
 using System;
 using System.ComponentModel;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Windows;
 using TextConvert.Models;
@@ -10,6 +11,9 @@ namespace TextConvert.ViewModels
 {
     class MainViewModel : IDisposable
     {
+        //Disposableの集約
+        private CompositeDisposable compositeDisposable { get; } = new CompositeDisposable();
+
         //変更通知機能を持つ、テキストが格納されたモデル
         public TextModel BeforeAfterTextModel;
 
@@ -38,22 +42,34 @@ namespace TextConvert.ViewModels
             BeforeAfterTextModel = new TextModel();
 
             //入力の変更の通知
-            BeforeTextProperty = BeforeAfterTextModel.ObserveProperty(o => o.BeforeText).Select(value => value).ToReactiveProperty();
+            BeforeTextProperty = BeforeAfterTextModel.ObserveProperty(o => o.BeforeText)
+                                                     .Select(value => value)
+                                                     .ToReactiveProperty()
+                                                     .AddTo(compositeDisposable);
+
             //出力の変更の通知
-            AfterTextProperty = BeforeAfterTextModel.ObserveProperty(o => o.AfterText).Select(value => value).ToReactiveProperty();
+            AfterTextProperty = BeforeAfterTextModel.ObserveProperty(o => o.AfterText)
+                                                    .Select(value => value)
+                                                    .ToReactiveProperty()
+                                                    .AddTo(compositeDisposable);
 
             //出力の変更を検知してCanCopyのTrueFalseを変更
-            CanCopy = AfterTextProperty.Select(x => string.IsNullOrWhiteSpace(x) == false).ToReactiveProperty();
+            CanCopy = AfterTextProperty.Select(x => string.IsNullOrWhiteSpace(x) == false)
+                                       .ToReactiveProperty()
+                                       .AddTo(compositeDisposable);
+
             //Cancopyの変更を検知してコピーボタンの有効無効
-            CopyCommand = CanCopy.ToReactiveCommand();
+            CopyCommand = CanCopy.ToReactiveCommand()
+                                 .AddTo(compositeDisposable);
             CopyCommand.Subscribe(() => Clipboard.SetText(AfterTextProperty.Value));
 
 
             //入力と出力の変更を検知してClearの有効無効
-            ClearButtonIsEnable = Observable.CombineLatest(BeforeTextProperty, AfterTextProperty,
-                (x, y) => string.IsNullOrWhiteSpace(x) == false || string.IsNullOrWhiteSpace(y) == false
-            ).ToReactiveProperty();
-
+            ClearButtonIsEnable = Observable.CombineLatest(BeforeTextProperty,
+                                                           AfterTextProperty,
+                                                           (x, y) => string.IsNullOrWhiteSpace(x) == false || string.IsNullOrWhiteSpace(y) == false)
+                                            .ToReactiveProperty()
+                                            .AddTo(compositeDisposable);
 
             //BeforeViewModelの作成
             BViewModel = new BeforeViewModel(BeforeAfterTextModel);
@@ -66,13 +82,7 @@ namespace TextConvert.ViewModels
         //Dispose関数
         public void Dispose()
         {
-            BeforeTextProperty.Dispose();
-            AfterTextProperty.Dispose();
-            CanCopy.Dispose();
-            CopyCommand.Dispose();
-            ClearButtonIsEnable.Dispose();
-            AViewModel.Dispose();
-            BViewModel.Dispose();
+            compositeDisposable.Dispose();
         }
     }
 }
