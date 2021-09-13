@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "QBkoQnZQ9VwTIHW/2r51MAuNfkOeUxOr3+OD4e3yDCklpJ+QsEiL1hFWjipiGcA58dUb14/nJRgFM1ZUBeK70g==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\capib\\Documents\\main\\C#\\TextConvert\\TextConvert.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\capib\\.nuget\\packages\\reactiveproperty\\7.12.0\\reactiveproperty.7.12.0.nupkg.sha512",
+    "C:\\Users\\capib\\.nuget\\packages\\reactiveproperty.core\\7.12.0\\reactiveproperty.core.7.12.0.nupkg.sha512",
+    "C:\\Users\\capib\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512",
+    "C:\\Users\\capib\\.nuget\\packages\\system.reactive\\5.0.0\\system.reactive.5.0.0.nupkg.sha512",
+    "C:\\Users\\capib\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.5.3\\system.runtime.compilerservices.unsafe.4.5.3.nupkg.sha512",
+    "C:\\Users\\capib\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512"
+  ],
+  "logs": []
+}

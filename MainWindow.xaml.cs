@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using TextConvert.ViewModels;
 
 namespace TextConvert
 {
@@ -23,12 +11,13 @@ namespace TextConvert
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainViewModel();
         }
 
-
-        // https://water2litter.net/rye/post/c_io_from_clipboard/
+        //ペーストボタンクリック時の動作
         private void Button_Paste_Click(object sender, RoutedEventArgs e)
         {
+
             string Input = "";
             // クリップボードからオブジェクトを取得
             IDataObject ClipboardData = Clipboard.GetDataObject();
@@ -43,34 +32,19 @@ namespace TextConvert
                 MessageBox.Show("コピーしたデータが文字列ではありません");
             }
             //TextBoxに表示
-            InputText.DataContext = Input;
+            ((MainViewModel)DataContext).BeforeAfterTextModel.BeforeText = Input;
         }
 
-        private void Button_Convert_Click(object sender, RoutedEventArgs e)
-        {
-            // 入力の受け取り
-            string BeforeText = InputText.Text;
-            // データ変換
-            string tmpText = BeforeText;
-            tmpText = tmpText.Replace("\r\n", "");
-            tmpText = tmpText.Replace("\n", "");
-            tmpText = tmpText.Replace(".", ".\n\n");
-            // 出力
-            string AfterText = tmpText;
-            OutputText.DataContext = AfterText;
-            
-        }
 
         private void Button_Clear_Click(object sender, RoutedEventArgs e)
         {
             // 入力と出力をクリア
-            InputText.DataContext = "";
-            OutputText.DataContext = "";
+            ((MainViewModel)DataContext).BeforeAfterTextModel.BeforeText = "";
+            ((MainViewModel)DataContext).BeforeAfterTextModel.AfterText = "";
         }
 
-        private void Button_Copy_Click(object sender, RoutedEventArgs e)
-        {
-            Clipboard.SetText(OutputText.Text);
-        }
+
+
     }
+
 }
