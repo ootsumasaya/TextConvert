@@ -3,18 +3,24 @@
 
 論文などをコピーしたときの無駄な改行を消したいときに利用してください。
 
+# ScreenShot
+初期画面
+![初期画面](https://user-images.githubusercontent.com/32339438/133031885-70362161-8447-49f3-be19-c9bd54731277.PNG)
+
+入力例
+![入力例](https://user-images.githubusercontent.com/32339438/133031927-d0a1ac06-bbdc-4efb-b5b9-b4672a47e9c8.PNG)
+
+
+
 # 使い方
-０．bin/Release/TextConvert.exe をダウンロードして実行
+０．bin/Release/TextConvert.exe をダウンロードして実行。
 
-１．変換したいテキストをクリップボードにコピーする
+１．変換したいテキストをクリップボードにコピーしペーストボタンを押す、または右欄に入力する。
 
-２．ペーストを押す
-
-３．変換を押す
-
-４．コピーを押す
+２．コピーを押す
 
 これで変換後のテキストがクリップボードにコピーされます。
+
 
 
 # 参考文献
@@ -27,5 +33,7 @@ https://qiita.com/Kosen-amai/items/c2542fe0d0b62d108096
 https://water2litter.net/rye/post/c_io_from_clipboard/
 
 
-# 今後の課題
-1...Nやi.e.などに対応する
+# ver1.0
+・変換ボタンを押す必要がなくなりました。
+
+・出力欄が空欄のときコピーボタンを無効に、入力欄と出力欄が空欄のときクリアボタンを無効になります。
