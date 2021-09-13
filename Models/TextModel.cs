@@ -51,7 +51,7 @@ namespace TextConvert.Models
             }
             else
             {
-                x = x.Replace("\r\n", "");
+                x = x.Replace("\r", "");
                 x = x.Replace("\n", "");
                 x = x.Replace(".", ".\n\n");
                 return x;

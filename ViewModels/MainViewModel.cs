@@ -59,10 +59,9 @@ namespace TextConvert.ViewModels
                                        .AddTo(compositeDisposable);
 
             //Cancopyの変更を検知してコピーボタンの有効無効
-            CopyCommand = (ReactiveCommand)CanCopy.ToReactiveCommand()
-                                                  .Subscribe(() => Clipboard.SetText(AfterTextProperty.Value))
-                                                  .AddTo(compositeDisposable);
-
+            CopyCommand = CanCopy.ToReactiveCommand()
+                                 .AddTo(compositeDisposable);
+            CopyCommand.Subscribe(() => Clipboard.SetText(AfterTextProperty.Value));
 
 
             //入力と出力の変更を検知してClearの有効無効
@@ -71,7 +70,6 @@ namespace TextConvert.ViewModels
                                                            (x, y) => string.IsNullOrWhiteSpace(x) == false || string.IsNullOrWhiteSpace(y) == false)
                                             .ToReactiveProperty()
                                             .AddTo(compositeDisposable);
-
 
             //BeforeViewModelの作成
             BViewModel = new BeforeViewModel(BeforeAfterTextModel);

@@ -13,3 +13,15 @@ C:\Users\capib\Documents\main\C#\TextConvert\obj\Debug\TextConvert.csproj.Genera
 C:\Users\capib\Documents\main\C#\TextConvert\obj\Debug\TextConvert.csproj.CoreCompileInputs.cache
 C:\Users\capib\Documents\main\C#\TextConvert\obj\Debug\TextConvert.exe
 C:\Users\capib\Documents\main\C#\TextConvert\obj\Debug\TextConvert.pdb
+C:\Users\capib\Documents\main\C#\TextConvert\bin\Debug\ReactiveProperty.dll
+C:\Users\capib\Documents\main\C#\TextConvert\bin\Debug\ReactiveProperty.Core.dll
+C:\Users\capib\Documents\main\C#\TextConvert\bin\Debug\System.ComponentModel.Annotations.dll
+C:\Users\capib\Documents\main\C#\TextConvert\bin\Debug\System.Reactive.dll
+C:\Users\capib\Documents\main\C#\TextConvert\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\capib\Documents\main\C#\TextConvert\bin\Debug\System.Threading.Tasks.Extensions.dll
+C:\Users\capib\Documents\main\C#\TextConvert\obj\Debug\AfterTextView.g.cs
+C:\Users\capib\Documents\main\C#\TextConvert\obj\Debug\BeforeTextView.g.cs
+C:\Users\capib\Documents\main\C#\TextConvert\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\capib\Documents\main\C#\TextConvert\obj\Debug\AfterTextView.baml
+C:\Users\capib\Documents\main\C#\TextConvert\obj\Debug\BeforeTextView.baml
+C:\Users\capib\Documents\main\C#\TextConvert\obj\Debug\TextConvert.csproj.CopyComplete
