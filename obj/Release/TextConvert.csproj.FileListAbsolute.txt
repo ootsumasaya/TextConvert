@@ -13,3 +13,15 @@ C:\Users\capib\Documents\main\C#\TextConvert\obj\Release\TextConvert.csproj.Gene
 C:\Users\capib\Documents\main\C#\TextConvert\obj\Release\TextConvert.csproj.CoreCompileInputs.cache
 C:\Users\capib\Documents\main\C#\TextConvert\obj\Release\TextConvert.exe
 C:\Users\capib\Documents\main\C#\TextConvert\obj\Release\TextConvert.pdb
+C:\Users\capib\Documents\main\C#\TextConvert\obj\Release\AfterTextView.g.cs
+C:\Users\capib\Documents\main\C#\TextConvert\obj\Release\BeforeTextView.g.cs
+C:\Users\capib\Documents\main\C#\TextConvert\obj\Release\GeneratedInternalTypeHelper.g.cs
+C:\Users\capib\Documents\main\C#\TextConvert\bin\Release\ReactiveProperty.dll
+C:\Users\capib\Documents\main\C#\TextConvert\bin\Release\ReactiveProperty.Core.dll
+C:\Users\capib\Documents\main\C#\TextConvert\bin\Release\System.ComponentModel.Annotations.dll
+C:\Users\capib\Documents\main\C#\TextConvert\bin\Release\System.Reactive.dll
+C:\Users\capib\Documents\main\C#\TextConvert\bin\Release\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\capib\Documents\main\C#\TextConvert\bin\Release\System.Threading.Tasks.Extensions.dll
+C:\Users\capib\Documents\main\C#\TextConvert\obj\Release\AfterTextView.baml
+C:\Users\capib\Documents\main\C#\TextConvert\obj\Release\BeforeTextView.baml
+C:\Users\capib\Documents\main\C#\TextConvert\obj\Release\TextConvert.csproj.CopyComplete

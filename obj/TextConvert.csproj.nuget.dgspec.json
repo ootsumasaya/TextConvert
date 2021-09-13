@@ -1,0 +1,57 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\capib\\Documents\\main\\C#\\TextConvert\\TextConvert.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\capib\\Documents\\main\\C#\\TextConvert\\TextConvert.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\capib\\Documents\\main\\C#\\TextConvert\\TextConvert.csproj",
+        "projectName": "TextConvert",
+        "projectPath": "C:\\Users\\capib\\Documents\\main\\C#\\TextConvert\\TextConvert.csproj",
+        "packagesPath": "C:\\Users\\capib\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\capib\\Documents\\main\\C#\\TextConvert\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "configFilePaths": [
+          "C:\\Users\\capib\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "dependencies": {
+            "ReactiveProperty": {
+              "target": "Package",
+              "version": "[7.12.0, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    }
+  }
+}

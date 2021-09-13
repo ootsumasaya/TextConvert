@@ -1,52 +1,64 @@
-﻿<Window x:Class="TextConvert.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TextConvert"
-        mc:Ignorable="d"
-        Title="TextConvert" Height="450" Width="800">
+﻿<Window
+    x:Class="TextConvert.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:TextConvert"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="TextConvert"
+    Width="800"
+    Height="450"
+    mc:Ignorable="d">
     <Window.Resources>
-        <!-- TextBoxの既定スタイル -->
+        <!--  TextBoxの既定スタイル  -->
         <Style TargetType="TextBox">
-            <!-- 改行を受け付ける -->
-            <Setter Property="AcceptsReturn" Value="True"/>
-            <!-- フォント -->
-            <Setter Property="FontFamily" Value="MS Gothic"/>
-            <!-- 折り返しあり -->
-            <Setter Property="TextWrapping" Value="Wrap"/>
+            <!--  改行を受け付ける  -->
+            <Setter Property="AcceptsReturn" Value="True" />
+            <!--  フォント  -->
+            <Setter Property="FontFamily" Value="MS Gothic" />
+            <!--  折り返しあり  -->
+            <Setter Property="TextWrapping" Value="Wrap" />
         </Style>
-        <!-- Buttonの既定スタイル -->
+        <!--  Buttonの既定スタイル  -->
         <Style TargetType="Button">
-            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Margin" Value="5" />
         </Style>
     </Window.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
         </Grid.RowDefinitions>
-        
-        
+
+
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <TextBox 
-            Grid.Row="0" Grid.Column="0" x:Name="InputText" Text="{Binding Path=.}"/>
+        <local:BeforeTextView             Grid.Row="0"
+            Grid.Column="0" DataContext="{Binding BViewModel}"/>
 
         <StackPanel Grid.Row="0" Grid.Column="1">
-            <Button x:Name="paste_button" Content="ペースト" Click="Button_Paste_Click"/>
-            <Button x:Name="convert_button" Content="変換" Click="Button_Convert_Click"/>
-            <Button x:Name="copy_button" Content="コピー" Click="Button_Copy_Click"/>
-            <Button x:Name="clear_button" Content="クリア" Click="Button_Clear_Click"/>
+            <Button
+                x:Name="paste_button"
+                Click="Button_Paste_Click"
+                Content="ペースト" />
+            <Button
+                x:Name="copy_button"
+                Command="{Binding CopyCommand}"
+                Content="コピー" />
+            <Button
+                x:Name="clear_button"
+                Click="Button_Clear_Click"
+                Content="クリア"
+                IsEnabled="{Binding ClearButtonIsEnable.Value}" />
         </StackPanel>
 
-        <TextBox 
-            Grid.Row="0" Grid.Column="2" x:Name="OutputText" Text="{Binding Path=.}"/>
-
+        <local:AfterTextView  Grid.Row="0"
+            Grid.Column="2" DataContext="{Binding AViewModel}"/>
+        
     </Grid>
-   
+
 </Window>
