@@ -13,7 +13,7 @@
 
 
 # 使い方
-０．bin/Release/TextConvert.exe をダウンロードして実行。
+０．bin/ReleaseをダウンロードしてTextConvert.exeを実行。
 
 １．変換したいテキストをクリップボードにコピーしペーストボタンを押す、または右欄に入力する。
 
