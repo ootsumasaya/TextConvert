@@ -4,7 +4,10 @@ using System;
 using System.ComponentModel;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using TextConvert.Models;
 
 namespace TextConvert.ViewModels
@@ -39,6 +42,11 @@ namespace TextConvert.ViewModels
         public ReactiveProperty<bool> CanPaste { get; }
         //ペーストボタンの動作
         public ReactiveCommand PasteCommand { get; }
+
+        //オートペーストボタンの現状
+        public ReactiveProperty<bool> AutoPasteIsChecked { get; set;}
+        //オートペーストの動作
+        public ReactiveCommand AutoPasteCommand { get; }
 
 
         //ViewModelの定義
@@ -94,18 +102,28 @@ namespace TextConvert.ViewModels
             //ペーストボタンの動作
             PasteCommand.Subscribe(() =>
             {
-                // クリップボードからオブジェクトを取得
-                IDataObject ClipboardData = Clipboard.GetDataObject();
-                // テキストデータかどうか確認
-                if (ClipboardData.GetDataPresent(DataFormats.Text))
+                SetClipboardText(BeforeAfterTextModel);
+            });
+
+            //オートペーストボタンの現状
+            AutoPasteIsChecked = new ReactiveProperty<bool>(false).AddTo(compositeDisposable);
+            AutoPasteCommand = new ReactiveCommand().AddTo(compositeDisposable);
+
+            //オートペーストボタンの動作
+            AutoPasteCommand.Subscribe(() =>
+            {
+                Thread thread = new Thread(() =>
                 {
-                    // オブジェクトからテキストを取得
-                    BeforeAfterTextModel.BeforeText = (string)ClipboardData.GetData(DataFormats.Text);
-                }
-                else
-                {
-                    MessageBox.Show("コピーしたデータが文字列ではありません");
-                }
+                    while(AutoPasteIsChecked.Value == true)
+                    {
+                        Thread STAthread = new Thread(() => SetClipboardText(BeforeAfterTextModel));
+                        STAthread.SetApartmentState(ApartmentState.STA);
+                        STAthread.Start();
+                        Thread.Sleep(1000);
+                    }
+                    return;
+                });
+                thread.Start();
             });
 
             //BeforeViewModelの作成
@@ -113,6 +131,23 @@ namespace TextConvert.ViewModels
             //AfterViewModelの作成
             AfterViewModel = new AfterViewModel(BeforeAfterTextModel).AddTo(compositeDisposable);
 
+        }
+
+        public void SetClipboardText(TextModel BeforeAfterTextModel)
+        {
+            // クリップボードからオブジェクトを取得
+            IDataObject ClipboardData = Clipboard.GetDataObject();
+            // テキストデータかどうか確認
+            if (ClipboardData.GetDataPresent(DataFormats.Text))
+            {
+                // オブジェクトからテキストを取得
+                BeforeAfterTextModel.BeforeText = (string)ClipboardData.GetData(DataFormats.Text);
+            }
+            else
+            {
+                MessageBox.Show("コピーしたデータが文字列ではありません");
+            }
+            return;
         }
 
 
