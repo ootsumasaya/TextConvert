@@ -48,6 +48,12 @@ namespace TextConvert.ViewModels
         //オートボタンの動作
         public ReactiveCommand AutoCommand { get; }
 
+        //BeforeTextの表示切替
+        public ReactiveProperty<Visibility> BeforeTextVisibility { get; }
+
+        //ボタンのHorizontalAlignment
+        public ReactiveProperty<HorizontalAlignment> GridHorizontalAlignment { get; }
+
 
         //ViewModelの定義
         public MainViewModel()
@@ -108,6 +114,34 @@ namespace TextConvert.ViewModels
             //オートボタンの現状
             AutoIsChecked = new ReactiveProperty<bool>(false).AddTo(compositeDisposable);
             AutoCommand = new ReactiveCommand().AddTo(compositeDisposable);
+
+            //オートボタンがオンのときBeforeTextを非表示にする
+            BeforeTextVisibility = AutoIsChecked.Select(x =>
+                {
+                    if (x is true)
+                    {
+                        return Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        return Visibility.Visible;
+                    }
+                }).ToReactiveProperty()
+                  .AddTo(compositeDisposable);
+
+            //オートボタンがオンのとき左詰めする
+            GridHorizontalAlignment = AutoIsChecked.Select(x =>
+            {
+                if (x is true)
+                {
+                    return HorizontalAlignment.Left;
+                }
+                else
+                {
+                    return HorizontalAlignment.Stretch;
+                }
+            }).ToReactiveProperty()
+              .AddTo(compositeDisposable);
 
             //オートボタンの動作
             AutoCommand.Subscribe(() =>

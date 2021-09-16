@@ -13,7 +13,7 @@
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
     </Window.Resources>
 
-    <Grid>
+    <Grid HorizontalAlignment="{Binding GridHorizontalAlignment.Value}">
         <Grid.RowDefinitions>
             <RowDefinition />
         </Grid.RowDefinitions>
@@ -27,10 +27,10 @@
 
         <local:BeforeTextView             
             Grid.Row="0"
-            Grid.Column="0" 
-            DataContext="{Binding BeforeViewModel}"/>
+            Grid.Column="0"
+            Visibility="{Binding BeforeTextVisibility.Value}"/>
 
-        <StackPanel Grid.Row="0" Grid.Column="1">
+        <StackPanel Grid.Row="0" Grid.Column="1" >
             <Button
                 x:Name="paste_button"
                 Content="ペースト" 
@@ -53,8 +53,10 @@
                 Style="{StaticResource MaterialDesignSwitchToggleButton}"/>
         </StackPanel>
 
-        <local:AfterTextView  Grid.Row="0"
-            Grid.Column="2" DataContext="{Binding AfterViewModel}"/>
+        <local:AfterTextView  
+            Grid.Row="0"
+            Grid.Column="2" 
+            HorizontalAlignment="Stretch"/>
         
     </Grid>
 
