@@ -33,6 +33,11 @@ https://qiita.com/Kosen-amai/items/c2542fe0d0b62d108096
 https://water2litter.net/rye/post/c_io_from_clipboard/
 
 
+# ver1.1
+・オートモードを追加しました。
+
+オートをオンにするとペーストとコピーを自動で行います。
+
 # ver1.0
 ・変換ボタンを押す必要がなくなりました。
 
