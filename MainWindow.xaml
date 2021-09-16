@@ -10,19 +10,7 @@
     Height="450"
     mc:Ignorable="d">
     <Window.Resources>
-        <!--  TextBoxの既定スタイル  -->
-        <Style TargetType="TextBox">
-            <!--  改行を受け付ける  -->
-            <Setter Property="AcceptsReturn" Value="True" />
-            <!--  フォント  -->
-            <Setter Property="FontFamily" Value="MS Gothic" />
-            <!--  折り返しあり  -->
-            <Setter Property="TextWrapping" Value="Wrap" />
-        </Style>
-        <!--  Buttonの既定スタイル  -->
-        <Style TargetType="Button">
-            <Setter Property="Margin" Value="5" />
-        </Style>
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
     </Window.Resources>
 
     <Grid>
@@ -37,27 +25,36 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <local:BeforeTextView             Grid.Row="0"
-            Grid.Column="0" DataContext="{Binding BViewModel}"/>
+        <local:BeforeTextView             
+            Grid.Row="0"
+            Grid.Column="0" 
+            DataContext="{Binding BeforeViewModel}"/>
 
         <StackPanel Grid.Row="0" Grid.Column="1">
             <Button
                 x:Name="paste_button"
-                Click="Button_Paste_Click"
-                Content="ペースト" />
+                Content="ペースト" 
+                Command="{Binding PasteCommand}"/>
             <Button
                 x:Name="copy_button"
-                Command="{Binding CopyCommand}"
-                Content="コピー" />
+                Content="コピー" 
+                Command="{Binding CopyCommand}"/>
             <Button
                 x:Name="clear_button"
-                Click="Button_Clear_Click"
                 Content="クリア"
-                IsEnabled="{Binding ClearButtonIsEnable.Value}" />
+                Command="{Binding ClearCommand}" />
+
+            <TextBlock
+                Text="オート" 
+                HorizontalAlignment="Center"/>
+            <ToggleButton
+                Command="{Binding AutoCommand}" 
+                IsChecked="{Binding AutoIsChecked.Value}"
+                Style="{StaticResource MaterialDesignSwitchToggleButton}"/>
         </StackPanel>
 
         <local:AfterTextView  Grid.Row="0"
-            Grid.Column="2" DataContext="{Binding AViewModel}"/>
+            Grid.Column="2" DataContext="{Binding AfterViewModel}"/>
         
     </Grid>
 
