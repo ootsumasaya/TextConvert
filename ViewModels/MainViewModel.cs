@@ -43,10 +43,10 @@ namespace TextConvert.ViewModels
         //ペーストボタンの動作
         public ReactiveCommand PasteCommand { get; }
 
-        //オートペーストボタンの現状
-        public ReactiveProperty<bool> AutoPasteIsChecked { get; set;}
-        //オートペーストの動作
-        public ReactiveCommand AutoPasteCommand { get; }
+        //オートボタンの現状
+        public ReactiveProperty<bool> AutoIsChecked { get; set;}
+        //オートボタンの動作
+        public ReactiveCommand AutoCommand { get; }
 
 
         //ViewModelの定義
@@ -75,7 +75,7 @@ namespace TextConvert.ViewModels
                                  .AddTo(compositeDisposable);
 
             //コピーボタンの動作
-            CopyCommand.Subscribe(() => Clipboard.SetText(AfterTextProperty.Value));
+            CopyCommand.Subscribe(() => SetClipboardText(BeforeAfterTextModel));
 
             //入力と出力の変更を検知してクリアボタンの有効無効
             CanClear = Observable.CombineLatest(BeforeTextProperty,
@@ -102,21 +102,25 @@ namespace TextConvert.ViewModels
             //ペーストボタンの動作
             PasteCommand.Subscribe(() =>
             {
-                SetClipboardText(BeforeAfterTextModel);
+                GetClipboardText(BeforeAfterTextModel);
             });
 
-            //オートペーストボタンの現状
-            AutoPasteIsChecked = new ReactiveProperty<bool>(false).AddTo(compositeDisposable);
-            AutoPasteCommand = new ReactiveCommand().AddTo(compositeDisposable);
+            //オートボタンの現状
+            AutoIsChecked = new ReactiveProperty<bool>(false).AddTo(compositeDisposable);
+            AutoCommand = new ReactiveCommand().AddTo(compositeDisposable);
 
-            //オートペーストボタンの動作
-            AutoPasteCommand.Subscribe(() =>
+            //オートボタンの動作
+            AutoCommand.Subscribe(() =>
             {
                 Thread thread = new Thread(() =>
                 {
-                    while(AutoPasteIsChecked.Value == true)
+                    while(AutoIsChecked.Value == true)
                     {
-                        Thread STAthread = new Thread(() => SetClipboardText(BeforeAfterTextModel));
+                        Thread STAthread = new Thread(() =>
+                        {
+                            GetClipboardText(BeforeAfterTextModel);
+                            SetClipboardText(BeforeAfterTextModel);
+                        });
                         STAthread.SetApartmentState(ApartmentState.STA);
                         STAthread.Start();
                         Thread.Sleep(1000);
@@ -133,7 +137,7 @@ namespace TextConvert.ViewModels
 
         }
 
-        public void SetClipboardText(TextModel BeforeAfterTextModel)
+        public void GetClipboardText(TextModel BeforeAfterTextModel)
         {
             // クリップボードからオブジェクトを取得
             IDataObject ClipboardData = Clipboard.GetDataObject();
@@ -148,6 +152,11 @@ namespace TextConvert.ViewModels
                 MessageBox.Show("コピーしたデータが文字列ではありません");
             }
             return;
+        }
+
+        public void SetClipboardText(TextModel BeforeAfterTextModel)
+        {
+            Clipboard.SetText(AfterTextProperty.Value);
         }
 
 

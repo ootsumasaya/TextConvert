@@ -45,10 +45,11 @@
                 Command="{Binding ClearCommand}" />
 
             <TextBlock
-                Text="オートペースト"/>
+                Text="オート" 
+                HorizontalAlignment="Center"/>
             <ToggleButton
-                Command="{Binding AutoPasteCommand}" 
-                IsChecked="{Binding AutoPasteIsChecked.Value}"
+                Command="{Binding AutoCommand}" 
+                IsChecked="{Binding AutoIsChecked.Value}"
                 Style="{StaticResource MaterialDesignSwitchToggleButton}"/>
         </StackPanel>
 
