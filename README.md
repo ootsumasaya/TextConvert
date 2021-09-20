@@ -5,14 +5,20 @@
 
 # ScreenShot
 初期画面
-![初期画面](https://user-images.githubusercontent.com/32339438/133031885-70362161-8447-49f3-be19-c9bd54731277.PNG)
+![初期画面](https://user-images.githubusercontent.com/32339438/133966145-5bafc410-6ea1-47f8-a14d-06e2489faab0.PNG)
+
+
 
 入力例
-![入力例](https://user-images.githubusercontent.com/32339438/133031927-d0a1ac06-bbdc-4efb-b5b9-b4672a47e9c8.PNG)
+![入力例](https://user-images.githubusercontent.com/32339438/133966161-523b2e61-7944-43d8-8b7a-a25e881334c5.PNG)
+
+オートモード
+![オートモード](https://user-images.githubusercontent.com/32339438/133966181-5acb40ff-954c-4bf9-a233-73461b7fa56d.PNG)
 
 
 
 # 使い方
+## マニュアルモード
 ０．bin/ReleaseをダウンロードしてTextConvert.exeを実行。
 
 １．変換したいテキストをクリップボードにコピーしペーストボタンを押す、または右欄に入力する。
@@ -21,6 +27,12 @@
 
 これで変換後のテキストがクリップボードにコピーされます。
 
+## オートモード
+０．bin/ReleaseをダウンロードしてTextConvert.exeを実行。
+
+１．オートをONにする。
+
+２．変換したいテキストをクリップボードにコピーすると、変換後のテキストがクリップボードに自動でコピーされます。
 
 
 # 参考文献
