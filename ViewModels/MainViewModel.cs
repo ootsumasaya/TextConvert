@@ -48,6 +48,12 @@ namespace TextConvert.ViewModels
         //オートボタンの動作
         public ReactiveCommand AutoCommand { get; }
 
+        //BeforeTextの表示切替
+        public ReactiveProperty<Visibility> BeforeTextVisibility { get; }
+
+        //ボタンのHorizontalAlignment
+        public ReactiveProperty<HorizontalAlignment> GridHorizontalAlignment { get; }
+
 
         //ViewModelの定義
         public MainViewModel()
@@ -109,6 +115,34 @@ namespace TextConvert.ViewModels
             AutoIsChecked = new ReactiveProperty<bool>(false).AddTo(compositeDisposable);
             AutoCommand = new ReactiveCommand().AddTo(compositeDisposable);
 
+            //オートボタンがオンのときBeforeTextを非表示にする
+            BeforeTextVisibility = AutoIsChecked.Select(x =>
+                {
+                    if (x is true)
+                    {
+                        return Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        return Visibility.Visible;
+                    }
+                }).ToReactiveProperty()
+                  .AddTo(compositeDisposable);
+
+            //オートボタンがオンのとき左詰めする
+            GridHorizontalAlignment = AutoIsChecked.Select(x =>
+            {
+                if (x is true)
+                {
+                    return HorizontalAlignment.Left;
+                }
+                else
+                {
+                    return HorizontalAlignment.Stretch;
+                }
+            }).ToReactiveProperty()
+              .AddTo(compositeDisposable);
+
             //オートボタンの動作
             AutoCommand.Subscribe(() =>
             {
@@ -141,15 +175,21 @@ namespace TextConvert.ViewModels
         {
             // クリップボードからオブジェクトを取得
             IDataObject ClipboardData = Clipboard.GetDataObject();
+            string ClipboardDataString;
             // テキストデータかどうか確認
             if (ClipboardData.GetDataPresent(DataFormats.Text))
             {
                 // オブジェクトからテキストを取得
-                BeforeAfterTextModel.BeforeText = (string)ClipboardData.GetData(DataFormats.Text);
+                ClipboardDataString = (string)ClipboardData.GetData(DataFormats.Text);
+                // データが更新されていたらBeforeTextを書き換え
+                if (ClipboardDataString != BeforeAfterTextModel.AfterText)
+                {
+                    BeforeAfterTextModel.BeforeText = ClipboardDataString;
+                }
             }
             else
             {
-                MessageBox.Show("コピーしたデータが文字列ではありません");
+                BeforeAfterTextModel.BeforeText = "コピーしたデータが文字列ではありません";
             }
             return;
         }
