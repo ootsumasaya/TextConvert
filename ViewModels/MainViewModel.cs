@@ -175,15 +175,21 @@ namespace TextConvert.ViewModels
         {
             // クリップボードからオブジェクトを取得
             IDataObject ClipboardData = Clipboard.GetDataObject();
+            string ClipboardDataString;
             // テキストデータかどうか確認
             if (ClipboardData.GetDataPresent(DataFormats.Text))
             {
                 // オブジェクトからテキストを取得
-                BeforeAfterTextModel.BeforeText = (string)ClipboardData.GetData(DataFormats.Text);
+                ClipboardDataString = (string)ClipboardData.GetData(DataFormats.Text);
+                // データが更新されていたらBeforeTextを書き換え
+                if (ClipboardDataString != BeforeAfterTextModel.AfterText)
+                {
+                    BeforeAfterTextModel.BeforeText = ClipboardDataString;
+                }
             }
             else
             {
-                MessageBox.Show("コピーしたデータが文字列ではありません");
+                BeforeAfterTextModel.BeforeText = "コピーしたデータが文字列ではありません";
             }
             return;
         }
