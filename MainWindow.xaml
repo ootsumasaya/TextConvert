@@ -16,6 +16,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
 
@@ -58,7 +59,12 @@
             Grid.Row="0"
             Grid.Column="2" 
             HorizontalAlignment="Stretch"/>
-        
+
+        <local:ConvertView
+            Grid.Row="1"
+                    Grid.ColumnSpan="3"/>
+
+
     </Grid>
 
 </Window>

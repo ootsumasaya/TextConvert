@@ -8,7 +8,7 @@
     mc:Ignorable="d">
     <Grid>
         <TextBox
-            DataContext="{Binding AfterViewModel}"
+            DataContext="{Binding afterViewModel}"
             Text="{Binding AfterText.Value, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
 </UserControl>

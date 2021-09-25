@@ -18,15 +18,17 @@ namespace TextConvert.ViewModels
         private CompositeDisposable compositeDisposable { get; } = new CompositeDisposable();
 
         //変更通知機能を持つ、テキストが格納されたモデル
-        public TextModel BeforeAfterTextModel;
+        public TextModel textModel;
 
         public ReactiveProperty<string> BeforeTextProperty { get; }
         public ReactiveProperty<string> AfterTextProperty { get; }
 
-        //変更前テキストのViewModelを持つReactiveProperty
-        public BeforeViewModel BeforeViewModel { get; }
-        //変更後テキストのViewModelを持つReactiveProperty
-        public AfterViewModel AfterViewModel { get; }
+        //変更前テキストのViewModel
+        public BeforeViewModel beforeViewModel { get; }
+        //変更後テキストのViewModel
+        public AfterViewModel afterViewModel { get; }
+        //変換動作のViewModel
+        public ConvertViewModel convertViewModel { get; }
 
         //コピーボタンの有効無効
         public ReactiveProperty<bool> CanCopy { get; }
@@ -55,20 +57,22 @@ namespace TextConvert.ViewModels
         public ReactiveProperty<HorizontalAlignment> GridHorizontalAlignment { get; }
 
 
+
+
         //ViewModelの定義
         public MainViewModel()
         {
             //変更通知機能を持つ、テキストが格納されたモデルの作成
-            BeforeAfterTextModel = new TextModel();
+            textModel = new TextModel();
 
             //入力の変更の通知
-            BeforeTextProperty = BeforeAfterTextModel.ObserveProperty(o => o.BeforeText)
+            BeforeTextProperty = textModel.ObserveProperty(o => o.BeforeText)
                                                      .Select(value => value)
                                                      .ToReactiveProperty()
                                                      .AddTo(compositeDisposable);
 
             //出力の変更の通知
-            AfterTextProperty = BeforeAfterTextModel.ObserveProperty(o => o.AfterText)
+            AfterTextProperty = textModel.ObserveProperty(o => o.AfterText)
                                                     .Select(value => value)
                                                     .ToReactiveProperty()
                                                     .AddTo(compositeDisposable);
@@ -81,7 +85,7 @@ namespace TextConvert.ViewModels
                                  .AddTo(compositeDisposable);
 
             //コピーボタンの動作
-            CopyCommand.Subscribe(() => SetClipboardText(BeforeAfterTextModel));
+            CopyCommand.Subscribe(() => SetClipboardText(textModel));
 
             //入力と出力の変更を検知してクリアボタンの有効無効
             CanClear = Observable.CombineLatest(BeforeTextProperty,
@@ -96,8 +100,8 @@ namespace TextConvert.ViewModels
             ClearCommand.Subscribe(() =>
             {
                 //入力と出力をクリア
-                BeforeAfterTextModel.BeforeText = "";
-                BeforeAfterTextModel.AfterText = "";
+                textModel.BeforeText = "";
+                textModel.AfterText = "";
             });
 
             //ペーストボタンの有効無効
@@ -108,7 +112,7 @@ namespace TextConvert.ViewModels
             //ペーストボタンの動作
             PasteCommand.Subscribe(() =>
             {
-                GetClipboardText(BeforeAfterTextModel);
+                GetClipboardText(textModel);
             });
 
             //オートボタンの現状
@@ -150,11 +154,11 @@ namespace TextConvert.ViewModels
                 {
                     while(AutoIsChecked.Value == true)
                     {
+                        //クリップボード関連はメインスレッドで動作させる
                         Thread STAthread = new Thread(() =>
                         {
-                            GetClipboardText(BeforeAfterTextModel);
-                            Thread.Sleep(500);
-                            SetClipboardText(BeforeAfterTextModel);
+                            GetClipboardText(textModel);
+                            SetClipboardText(textModel);
                         });
                         STAthread.SetApartmentState(ApartmentState.STA);
                         STAthread.Start();
@@ -166,13 +170,15 @@ namespace TextConvert.ViewModels
             });
 
             //BeforeViewModelの作成
-            BeforeViewModel = new BeforeViewModel(BeforeAfterTextModel).AddTo(compositeDisposable);
+            beforeViewModel = new BeforeViewModel(textModel).AddTo(compositeDisposable);
             //AfterViewModelの作成
-            AfterViewModel = new AfterViewModel(BeforeAfterTextModel).AddTo(compositeDisposable);
+            afterViewModel = new AfterViewModel(textModel).AddTo(compositeDisposable);
+            //ConvertViewModekの作成
+            convertViewModel = new ConvertViewModel(textModel).AddTo(compositeDisposable);
 
         }
 
-        public void GetClipboardText(TextModel BeforeAfterTextModel)
+        public void GetClipboardText(TextModel textModel)
         {
             // クリップボードからオブジェクトを取得
             IDataObject ClipboardData = Clipboard.GetDataObject();
@@ -183,14 +189,14 @@ namespace TextConvert.ViewModels
                 // オブジェクトからテキストを取得
                 ClipboardDataString = (string)ClipboardData.GetData(DataFormats.Text);
                 // データが更新されていたらBeforeTextを書き換え
-                if (ClipboardDataString != BeforeAfterTextModel.AfterText)
+                if (ClipboardDataString != textModel.AfterText)
                 {
-                    BeforeAfterTextModel.BeforeText = ClipboardDataString;
+                    textModel.BeforeText = ClipboardDataString;
                 }
             }
             else
             {
-                BeforeAfterTextModel.BeforeText = "コピーしたデータが文字列ではありません";
+                textModel.BeforeText = "コピーしたデータが文字列ではありません";
             }
             return;
         }

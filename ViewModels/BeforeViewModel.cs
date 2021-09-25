@@ -3,6 +3,7 @@ using Reactive.Bindings.Extensions;
 using System;
 using System.ComponentModel;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using TextConvert.Models;
 
 namespace TextConvert.ViewModels
@@ -12,19 +13,15 @@ namespace TextConvert.ViewModels
         //Disposableの集約
         private CompositeDisposable compositeDisposable { get; } = new CompositeDisposable();
         //変更前テキスト
-        public TextModel BeforeAfterTextModel { get; }
         public ReactiveProperty<string> BeforeText { get; }
 
 
-        public BeforeViewModel(TextModel BATextModel)
+        public BeforeViewModel(TextModel textModel)
         {
-            //モデルの格納
-            BeforeAfterTextModel = BATextModel;
-
             //入力の変更検知
-            BeforeText = BeforeAfterTextModel.ObserveProperty(o => o.BeforeText).ToReactiveProperty().AddTo(compositeDisposable);
+            BeforeText = textModel.ObserveProperty(o => o.BeforeText).ToReactiveProperty().AddTo(compositeDisposable);
             //BeforeTextの変更を検知してモデルにデータをを格納
-            BeforeText.Subscribe(_ => BeforeAfterTextModel.BeforeText = BeforeText.Value);
+            BeforeText.Subscribe(_ => textModel.BeforeText = BeforeText.Value);
         }
 
 
