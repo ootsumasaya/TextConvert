@@ -153,6 +153,7 @@ namespace TextConvert.ViewModels
                         Thread STAthread = new Thread(() =>
                         {
                             GetClipboardText(BeforeAfterTextModel);
+                            Thread.Sleep(500);
                             SetClipboardText(BeforeAfterTextModel);
                         });
                         STAthread.SetApartmentState(ApartmentState.STA);
