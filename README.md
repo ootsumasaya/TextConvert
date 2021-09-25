@@ -1,38 +1,38 @@
 # TextConvert
-クリップボードにコピーしたテキストを.(ピリオド)でのみ改行したテキストに変換します。
+入力された、またはクリップボードのテキストを変換します。
 
 論文などをコピーしたときの無駄な改行を消したいときに利用してください。
 
 # ScreenShot
 初期画面
-![初期画面](https://user-images.githubusercontent.com/32339438/133966145-5bafc410-6ea1-47f8-a14d-06e2489faab0.PNG)
-
+<img width="589" alt="初期画面" src="https://user-images.githubusercontent.com/32339438/134787903-94c1cdb5-c366-4f27-a087-b4ffda2956a7.PNG">
 
 
 入力例
-![入力例](https://user-images.githubusercontent.com/32339438/133966161-523b2e61-7944-43d8-8b7a-a25e881334c5.PNG)
-
-オートモード
-![オートモード](https://user-images.githubusercontent.com/32339438/133966181-5acb40ff-954c-4bf9-a233-73461b7fa56d.PNG)
+<img width="589" alt="入力例" src="https://user-images.githubusercontent.com/32339438/134787912-bd0939e4-0d0b-450f-87cd-cca218d3b3d6.PNG">
 
 
 
 # 使い方
 ## マニュアルモード
-０．bin/ReleaseをダウンロードしてTextConvert.exeを実行。
+1.bin/ReleaseをダウンロードしてTextConvert.exeを実行。
 
-１．変換したいテキストをクリップボードにコピーしペーストボタンを押す、または右欄に入力する。
+1.追加を押し、変換前の文字と変換後の文字を入力する。
 
-２．コピーを押す
+1.変換したいテキストをクリップボードにコピーしペーストボタンを押す、または右欄に入力する。
+
+1.コピーを押す
 
 これで変換後のテキストがクリップボードにコピーされます。
 
-## オートモード
-０．bin/ReleaseをダウンロードしてTextConvert.exeを実行。
+## オートコピーペーストモード
+1.bin/ReleaseをダウンロードしてTextConvert.exeを実行。
 
-１．オートをONにする。
+1.追加を押し、変換前の文字と変換後の文字を入力する。
 
-２．変換したいテキストをクリップボードにコピーすると、変換後のテキストがクリップボードに自動でコピーされます。
+1.オートをONにする。
+
+1.変換したいテキストをクリップボードにコピーすると、変換後のテキストがクリップボードに自動でコピーされます。
 
 
 # 参考文献
@@ -44,6 +44,11 @@ https://qiita.com/Kosen-amai/items/c2542fe0d0b62d108096
 
 https://water2litter.net/rye/post/c_io_from_clipboard/
 
+
+# ver2.0
+・改行文字を指定できるようになりました。
+
+・オートモードのバグを修正するため、オートモード時は入力欄がReadOnlyになりました。
 
 # ver1.1
 ・オートモードを追加しました。
