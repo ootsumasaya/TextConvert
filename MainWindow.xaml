@@ -13,9 +13,10 @@
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
     </Window.Resources>
 
-    <Grid HorizontalAlignment="{Binding GridHorizontalAlignment.Value}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
 
@@ -28,7 +29,8 @@
         <local:BeforeTextView             
             Grid.Row="0"
             Grid.Column="0"
-            Visibility="{Binding BeforeTextVisibility.Value}"/>
+            HorizontalAlignment="Stretch"
+            />
 
         <StackPanel Grid.Row="0" Grid.Column="1" >
             <Button
@@ -57,7 +59,12 @@
             Grid.Row="0"
             Grid.Column="2" 
             HorizontalAlignment="Stretch"/>
-        
+
+        <local:ConvertView
+            Grid.Row="1"
+                    Grid.ColumnSpan="3"/>
+
+
     </Grid>
 
 </Window>

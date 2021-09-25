@@ -4,7 +4,6 @@ using System;
 using System.ComponentModel;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Windows;
 using TextConvert.Models;
 
 namespace TextConvert.ViewModels
@@ -13,17 +12,14 @@ namespace TextConvert.ViewModels
     {
         //Disposableの集約
         private CompositeDisposable compositeDisposable { get; } = new CompositeDisposable();
-        public TextModel BeforeAfterTextModel { get; }
         public ReactiveProperty<string> AfterText { get; }
 
-        public AfterViewModel(TextModel BATextModel)
+        public AfterViewModel(TextModel textModel)
         {
-            //モデルの格納
-            BeforeAfterTextModel = BATextModel;
             //出力の変更検知
-            AfterText = BeforeAfterTextModel.ObserveProperty(o => o.AfterText).ToReactiveProperty().AddTo(compositeDisposable);
+            AfterText = textModel.ObserveProperty(o => o.AfterText).ToReactiveProperty().AddTo(compositeDisposable);
             //出力の変更を検知してモデルにデータを格納
-            AfterText.Subscribe(_ => BeforeAfterTextModel.AfterText = AfterText.Value);
+            AfterText.Subscribe(_ => textModel.AfterText = AfterText.Value);
         }
 
 

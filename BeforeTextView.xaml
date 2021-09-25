@@ -8,7 +8,12 @@
     mc:Ignorable="d">
     <Grid>
         <TextBox
-            DataContext="{Binding BeforeViewModel}"
-            Text="{Binding BeforeText.Value, UpdateSourceTrigger=PropertyChanged}" />
+            DataContext="{Binding beforeViewModel}"
+            IsReadOnly="{Binding BeforeTextIsReadOnly.Value}"
+            Text="{Binding BeforeText.Value, UpdateSourceTrigger=PropertyChanged}" 
+            AcceptsReturn="True"
+            TextWrapping="Wrap"
+            VerticalScrollBarVisibility="Visible"
+            />
     </Grid>
 </UserControl>
