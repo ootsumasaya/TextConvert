@@ -5,11 +5,15 @@
 
 # ScreenShot
 初期画面
-<img width="589" alt="初期画面" src="https://user-images.githubusercontent.com/32339438/134787903-94c1cdb5-c366-4f27-a087-b4ffda2956a7.PNG">
+
+<img width="393" alt="初期画面" src="https://user-images.githubusercontent.com/32339438/134787993-17ecb0a5-c439-48b5-9c4f-ecd7ec80c7eb.PNG">
+
 
 
 入力例
-<img width="393" alt="初期画面" src="https://user-images.githubusercontent.com/32339438/134787988-b0e21c44-d0f9-4b79-bdfa-78f2216b834f.PNG">
+
+<img width="393" alt="入力例" src="https://user-images.githubusercontent.com/32339438/134787996-8314c670-c9a8-450f-8096-c986dc0bda8f.PNG">
+
 
 
 # 使い方
@@ -18,7 +22,7 @@
 
 1.追加を押し、変換前の文字と変換後の文字を入力する。
 
-1.変換したいテキストをクリップボードにコピーしペーストボタンを押す、または右欄に入力する。
+1.変換したいテキストをクリップボードにコピーしペーストボタンを押す、または左欄に入力する。
 
 1.コピーを押す
 
@@ -34,14 +38,8 @@
 1.変換したいテキストをクリップボードにコピーすると、変換後のテキストがクリップボードに自動でコピーされます。
 
 
-# 参考文献
-・Windows GUIプログラミング入門17 変換ツール
-
-https://qiita.com/Kosen-amai/items/c2542fe0d0b62d108096
-
-・C#でクリップボードから文字列を取得する
-
-https://water2litter.net/rye/post/c_io_from_clipboard/
+## 注意事項
+・変換する文字を後から追加した場合は更新ボタンを押してください。
 
 
 # ver2.0
