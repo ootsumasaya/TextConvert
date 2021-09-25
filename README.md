@@ -9,8 +9,7 @@
 
 
 入力例
-<img width="589" alt="入力例" src="https://user-images.githubusercontent.com/32339438/134787912-bd0939e4-0d0b-450f-87cd-cca218d3b3d6.PNG">
-
+<img width="393" alt="初期画面" src="https://user-images.githubusercontent.com/32339438/134787988-b0e21c44-d0f9-4b79-bdfa-78f2216b834f.PNG">
 
 
 # 使い方
