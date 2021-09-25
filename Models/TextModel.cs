@@ -14,7 +14,6 @@ namespace TextConvert.Models
                 {
                     _BeforeText = value;
                     OnPropertyChanged(nameof(BeforeText));
-                    AfterText = Convert(value);
                 }
             }
         }
@@ -42,21 +41,5 @@ namespace TextConvert.Models
             }
         }
 
-        //改行を全て消し、そのあとピリオドごとに改行を入れる
-        public string Convert(string x)
-        {
-            if (x is null)
-            {
-                return "";
-            }
-            else
-            {
-                x = x.Replace("\r", "");
-                x = x.Replace("-\n", "");
-                x = x.Replace("\n", " ");
-                x = x.Replace(".", ".\n\n");
-                return x;
-            }
-        }
     }
 }

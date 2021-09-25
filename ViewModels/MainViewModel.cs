@@ -46,15 +46,12 @@ namespace TextConvert.ViewModels
         public ReactiveCommand PasteCommand { get; }
 
         //オートボタンの現状
-        public ReactiveProperty<bool> AutoIsChecked { get; set;}
+        public ReactiveProperty<bool> AutoIsChecked { get;}
         //オートボタンの動作
         public ReactiveCommand AutoCommand { get; }
 
-        //BeforeTextの表示切替
-        public ReactiveProperty<Visibility> BeforeTextVisibility { get; }
-
-        //ボタンのHorizontalAlignment
-        public ReactiveProperty<HorizontalAlignment> GridHorizontalAlignment { get; }
+        //BeforeTextのReadOnly
+        public ReactiveProperty<bool> BeforeTextIsReadOnly { get; }
 
 
 
@@ -64,6 +61,12 @@ namespace TextConvert.ViewModels
         {
             //変更通知機能を持つ、テキストが格納されたモデルの作成
             textModel = new TextModel();
+            //BeforeViewModelの作成
+            beforeViewModel = new BeforeViewModel(textModel).AddTo(compositeDisposable);
+            //AfterViewModelの作成
+            afterViewModel = new AfterViewModel(textModel).AddTo(compositeDisposable);
+            //ConvertViewModekの作成
+            convertViewModel = new ConvertViewModel(textModel).AddTo(compositeDisposable);
 
             //入力の変更の通知
             BeforeTextProperty = textModel.ObserveProperty(o => o.BeforeText)
@@ -76,6 +79,7 @@ namespace TextConvert.ViewModels
                                                     .Select(value => value)
                                                     .ToReactiveProperty()
                                                     .AddTo(compositeDisposable);
+
 
             //出力の変更を検知してコピーボタンの有効無効
             CanCopy = AfterTextProperty.Select(x => string.IsNullOrWhiteSpace(x) == false)
@@ -119,33 +123,7 @@ namespace TextConvert.ViewModels
             AutoIsChecked = new ReactiveProperty<bool>(false).AddTo(compositeDisposable);
             AutoCommand = new ReactiveCommand().AddTo(compositeDisposable);
 
-            //オートボタンがオンのときBeforeTextを非表示にする
-            BeforeTextVisibility = AutoIsChecked.Select(x =>
-                {
-                    if (x is true)
-                    {
-                        return Visibility.Collapsed;
-                    }
-                    else
-                    {
-                        return Visibility.Visible;
-                    }
-                }).ToReactiveProperty()
-                  .AddTo(compositeDisposable);
 
-            //オートボタンがオンのとき左詰めする
-            GridHorizontalAlignment = AutoIsChecked.Select(x =>
-            {
-                if (x is true)
-                {
-                    return HorizontalAlignment.Left;
-                }
-                else
-                {
-                    return HorizontalAlignment.Stretch;
-                }
-            }).ToReactiveProperty()
-              .AddTo(compositeDisposable);
 
             //オートボタンの動作
             AutoCommand.Subscribe(() =>
@@ -158,7 +136,6 @@ namespace TextConvert.ViewModels
                         Thread STAthread = new Thread(() =>
                         {
                             GetClipboardText(textModel);
-                            SetClipboardText(textModel);
                         });
                         STAthread.SetApartmentState(ApartmentState.STA);
                         STAthread.Start();
@@ -169,12 +146,25 @@ namespace TextConvert.ViewModels
                 thread.Start();
             });
 
-            //BeforeViewModelの作成
-            beforeViewModel = new BeforeViewModel(textModel).AddTo(compositeDisposable);
-            //AfterViewModelの作成
-            afterViewModel = new AfterViewModel(textModel).AddTo(compositeDisposable);
-            //ConvertViewModekの作成
-            convertViewModel = new ConvertViewModel(textModel).AddTo(compositeDisposable);
+
+            //オート時にBeforeTextをReadOnlyにする
+            AutoIsChecked.Subscribe(x =>
+            {
+                beforeViewModel.BeforeTextIsReadOnly.Value = x;
+            });
+
+            //オート時に変換後テキストが変更されたらそれをクリップボードに格納
+            AfterTextProperty.Subscribe(x =>
+            {
+                if (AutoIsChecked.Value == true)
+                {
+                    SetClipboardText(textModel);
+                }
+            });
+
+            
+
+
 
         }
 
@@ -182,33 +172,25 @@ namespace TextConvert.ViewModels
         {
             // クリップボードからオブジェクトを取得
             IDataObject ClipboardData = Clipboard.GetDataObject();
+            
             string ClipboardDataString;
             // テキストデータかどうか確認
             if (ClipboardData.GetDataPresent(DataFormats.Text))
             {
                 // オブジェクトからテキストを取得
                 ClipboardDataString = (string)ClipboardData.GetData(DataFormats.Text);
-                // データが更新されていたらBeforeTextを書き換え
-                if (ClipboardDataString != textModel.AfterText)
-                {
-                    textModel.BeforeText = ClipboardDataString;
-                }
+                //BeforeTextにデータを格納
+                textModel.BeforeText = ClipboardDataString;
             }
-            else
+        }
+
+        public void SetClipboardText(TextModel textModel)
             {
-                textModel.BeforeText = "コピーしたデータが文字列ではありません";
+                //AfterTextをクリップボード格納
+                Clipboard.SetText(textModel.AfterText);
             }
-            return;
-        }
 
-        public void SetClipboardText(TextModel BeforeAfterTextModel)
-        {
-            Clipboard.SetText(AfterTextProperty.Value);
-        }
-
-
-        //Dispose関数
-        public void Dispose()
+      public void Dispose()
         {
             compositeDisposable.Dispose();
         }

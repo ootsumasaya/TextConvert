@@ -9,6 +9,11 @@
     <Grid>
         <TextBox
             DataContext="{Binding beforeViewModel}"
-            Text="{Binding BeforeText.Value, UpdateSourceTrigger=PropertyChanged}" />
+            IsReadOnly="{Binding BeforeTextIsReadOnly.Value}"
+            Text="{Binding BeforeText.Value, UpdateSourceTrigger=PropertyChanged}" 
+            AcceptsReturn="True"
+            TextWrapping="Wrap"
+            VerticalScrollBarVisibility="Visible"
+            />
     </Grid>
 </UserControl>

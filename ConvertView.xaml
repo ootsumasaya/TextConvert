@@ -9,13 +9,19 @@
     xmlns:bh="http://schemas.microsoft.com/xaml/behaviors">
     <Grid DataContext="{Binding convertViewModel}">
         <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" >
                 <Button 
                     Content="追加"
-                    Command="{Binding AddCommand}"/>
+                    Command="{Binding AddCommand}"
+                    Margin="10,0,10,0"/>
                 <Button
                     Content="削除"
-                    Command="{Binding DeleteCommand}"/>
+                    Command="{Binding DeleteCommand}"
+                    Margin="10,0,10,0"/>
+                <Button
+                    Content="更新"
+                    Command="{Binding ReloadCommand}"
+                    Margin="10,0,10,0"/>
 
             </StackPanel>
 
@@ -28,7 +34,9 @@
                             <GridViewColumnHeader Content="変換前文字" Tag="BeforeConvertItem"/>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox Text="{Binding Path=BeforeConvertItem}" Width="50"/>
+                                    <TextBox Text="{Binding Path=BeforeConvertItem}" 
+                                             Width="50"
+                                             AcceptsReturn="True"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -37,7 +45,9 @@
                             <GridViewColumnHeader Content="変換後文字" Tag="AfterConvertItem"/>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox Text="{Binding Path=AfterConvertItem}" Width="50"/>
+                                    <TextBox Text="{Binding Path=AfterConvertItem}" 
+                                             Width="50"
+                                             AcceptsReturn="True"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -47,7 +57,7 @@
                 <bh:Interaction.Triggers>
                     <bh:EventTrigger EventName="SelectionChanged">
                         <bh:InvokeCommandAction Command="{Binding ConvertListSelectionCommand}"
-                                                CommandParameter="{Binding ElementName=ConvertListView, Path=SelectedItem}" />
+                                                CommandParameter="{Binding ElementName=ConvertListView, Path=SelectedIndex}" />
                     </bh:EventTrigger>
                 </bh:Interaction.Triggers>
             </ListView>

@@ -15,6 +15,9 @@ namespace TextConvert.ViewModels
         //変更前テキスト
         public ReactiveProperty<string> BeforeText { get; }
 
+        //BeforeTextのReadOnly
+        public ReactiveProperty<bool> BeforeTextIsReadOnly { get; set; }
+
 
         public BeforeViewModel(TextModel textModel)
         {
@@ -22,6 +25,9 @@ namespace TextConvert.ViewModels
             BeforeText = textModel.ObserveProperty(o => o.BeforeText).ToReactiveProperty().AddTo(compositeDisposable);
             //BeforeTextの変更を検知してモデルにデータをを格納
             BeforeText.Subscribe(_ => textModel.BeforeText = BeforeText.Value);
+
+            //BeforeTextのReadOnly
+            BeforeTextIsReadOnly = new ReactiveProperty<bool>(false);
         }
 
 
