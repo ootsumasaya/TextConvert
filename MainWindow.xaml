@@ -14,56 +14,61 @@
     </Window.Resources>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition/>
-        </Grid.RowDefinitions>
+        <TabControl x:Name="MyTabControl"
+                    Margin="20">
+            <TabItem Header="変換">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
 
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    
+                    <local:BeforeTextView             
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"/>
 
-        <local:BeforeTextView             
-            Grid.Row="0"
-            Grid.Column="0"
-            HorizontalAlignment="Stretch"
-            />
+                    <StackPanel 
+                        Grid.Row="0" 
+                        Grid.Column="1" >
+                        <Button
+                            x:Name="paste_button"
+                            Content="ペースト" 
+                            Command="{Binding PasteCommand}"/>
+                        <Button
+                            x:Name="copy_button"
+                            Content="コピー" 
+                            Command="{Binding CopyCommand}"/>
+                        <Button
+                            x:Name="clear_button"
+                            Content="クリア"
+                            Command="{Binding ClearCommand}" />
+                        <TextBlock
+                            Text="オート" 
+                            HorizontalAlignment="Center"/>
+                        <ToggleButton
+                            Command="{Binding AutoCommand}" 
+                            IsChecked="{Binding AutoIsChecked.Value}"
+                            Style="{StaticResource MaterialDesignSwitchToggleButton}"/>
+                    </StackPanel>
 
-        <StackPanel Grid.Row="0" Grid.Column="1" >
-            <Button
-                x:Name="paste_button"
-                Content="ペースト" 
-                Command="{Binding PasteCommand}"/>
-            <Button
-                x:Name="copy_button"
-                Content="コピー" 
-                Command="{Binding CopyCommand}"/>
-            <Button
-                x:Name="clear_button"
-                Content="クリア"
-                Command="{Binding ClearCommand}" />
-
-            <TextBlock
-                Text="オート" 
-                HorizontalAlignment="Center"/>
-            <ToggleButton
-                Command="{Binding AutoCommand}" 
-                IsChecked="{Binding AutoIsChecked.Value}"
-                Style="{StaticResource MaterialDesignSwitchToggleButton}"/>
-        </StackPanel>
-
-        <local:AfterTextView  
-            Grid.Row="0"
-            Grid.Column="2" 
-            HorizontalAlignment="Stretch"/>
-
-        <local:ConvertView
-            Grid.Row="1"
-                    Grid.ColumnSpan="3"/>
-
+                    <local:AfterTextView  
+                        Grid.Row="0"
+                        Grid.Column="2" 
+                        HorizontalAlignment="Stretch"/>
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="設定">
+                <local:ConvertView/>
+            </TabItem>
+        </TabControl>
 
     </Grid>
 
