@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:TextConvert"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:b="clr-namespace:TextConvert"
     mc:Ignorable="d"
     xmlns:bh="http://schemas.microsoft.com/xaml/behaviors">
     <Grid DataContext="{Binding convertViewModel}">
@@ -15,19 +16,19 @@
                     Command="{Binding AddCommand}"
                     Margin="10,0,10,0"/>
                 <Button
-                    Content="削除"
-                    Command="{Binding DeleteCommand}"
-                    Margin="10,0,10,0"/>
-                <Button
                     Content="更新"
                     Command="{Binding ReloadCommand}"
                     Margin="10,0,10,0"/>
 
             </StackPanel>
 
+
             <ListView 
                 x:Name="ConvertListView"
-                ItemsSource="{Binding ConvertCollection}">
+                ItemsSource="{Binding ConvertCollection}" 
+                SelectedIndex="{Binding CurrentIndex}" 
+                b:ReorderableItemsControlBehavior.Callback="{Binding DropCallback}" 
+                AllowDrop="True" >
                 <ListView.View>
                     <GridView>
                         <GridViewColumn>
@@ -51,16 +52,24 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
+
+                        <GridViewColumn>
+                            <GridViewColumnHeader Content="削除"/>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="×"
+                                            b:ButtonControlBehavior.RemoveItem ="True"/>
+
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
-                    
                 </ListView.View>
-                <bh:Interaction.Triggers>
-                    <bh:EventTrigger EventName="SelectionChanged">
-                        <bh:InvokeCommandAction Command="{Binding ConvertListSelectionCommand}"
-                                                CommandParameter="{Binding ElementName=ConvertListView, Path=SelectedIndex}" />
-                    </bh:EventTrigger>
-                </bh:Interaction.Triggers>
             </ListView>
+            
+            
+
+
         </StackPanel>
     </Grid>
 </UserControl>

@@ -17,7 +17,7 @@ namespace TextConvert.Models
                 }
             }
         }
-        private string _BeforeText;
+        private string _BeforeText = "";
 
         public string AfterText
         {
@@ -31,7 +31,7 @@ namespace TextConvert.Models
                 }
             }
         }
-        private string _AfterText;
+        private string _AfterText = "";
 
         private void OnPropertyChanged(string propertyName)
         {

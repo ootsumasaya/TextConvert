@@ -64,11 +64,14 @@
     <Compile Include="BeforeTextView.xaml.cs">
       <DependentUpon>BeforeTextView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ButtonControlBehavior.cs" />
     <Compile Include="ConvertView.xaml.cs">
       <DependentUpon>ConvertView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DragDropObject.cs" />
     <Compile Include="Models\ConvertModel.cs" />
     <Compile Include="Models\TextModel.cs" />
+    <Compile Include="ReorderableItemsControlBehavior.cs" />
     <Compile Include="ViewModels\AfterViewModel.cs" />
     <Compile Include="ViewModels\BeforeViewModel.cs" />
     <Compile Include="ViewModels\ConvertViewModel.cs" />
