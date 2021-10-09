@@ -40,17 +40,6 @@ namespace TextConvert.ViewModels
             }
         }
 
-        //×ボダンを押したときの動作
-        public Action<int> DeleteCallBack { get { return OnDelete; } }
-
-        private void OnDelete(int index)
-        {
-            if(index >= 0)
-            {
-                this.ConvertCollection.RemoveAt(index);
-            }
-        }
-
         //Disposableの集約
         public CompositeDisposable compositeDisposable { get; } = new CompositeDisposable();
 
@@ -66,8 +55,6 @@ namespace TextConvert.ViewModels
         //追加ボタンの動作
         public ReactiveCommand AddCommand { get; }
 
-        //削除ボタンの動作
-        public ReactiveCommand DeleteCommand { get; }
 
         //更新ボタンの動作
         public ReactiveCommand ReloadCommand { get; }
@@ -94,16 +81,6 @@ namespace TextConvert.ViewModels
                     BeforeConvertItem = "",
                     AfterConvertItem = ""
                 });
-            }).AddTo(compositeDisposable);
-
-            //削除ボタンの動作
-            DeleteCommand = new ReactiveCommand();
-            DeleteCommand.Subscribe(() =>
-            {
-                if(0 <= selectedIndex && selectedIndex < ConvertCollection.Count())
-                {
-                    ConvertCollection.RemoveAt(selectedIndex);
-                }
             }).AddTo(compositeDisposable);
 
             //更新ボタンの動作

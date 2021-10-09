@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xaml.Behaviors;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +8,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
+
+// 参考
+// http://yujiro15.net/blog/index.php?id=151
 namespace TextConvert
 {
     
@@ -88,20 +92,6 @@ namespace TextConvert
 
         #region イベントハンドラ
 
-        /// <summary>
-        /// PreviewMouseLeftButtonDown イベントハンドラ
-        /// 掴むアイテムを捕捉する
-        /// </summary>
-        /// <param name="sender">イベント発行元</param>
-        /// <param name="e">イベント引数</param>
-        private static void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            var control = sender as FrameworkElement;
-            temporaryData = new DragDropObject();
-            temporaryData.Start = e.GetPosition(Window.GetWindow(control));
-            temporaryData.DraggedItem = GetTemplatedRootElement(e.OriginalSource as FrameworkElement);
-        }
-
 
         /// <summary>
         /// 指定された FrameworkElement に対するテンプレートのルート要素を取得します。
@@ -127,6 +117,35 @@ namespace TextConvert
             
         }
 
+
+        /// <summary>
+        /// PreviewMouseLeftButtonDown イベントハンドラ
+        /// 掴むアイテムを捕捉する
+        /// </summary>
+        /// <param name="sender">イベント発行元</param>
+        /// <param name="e">イベント引数</param>
+        private static void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var control = sender as FrameworkElement;
+            temporaryData = new DragDropObject();
+            temporaryData.Start = e.GetPosition(Window.GetWindow(control));
+            temporaryData.DraggedItem = GetTemplatedRootElement(e.OriginalSource as FrameworkElement);
+            e.Handled = false;
+        }
+
+        /// <summary>
+        /// PreviewMouseLeftButtonUp イベントハンドラ
+        /// 単純にクリック操作されたときの処理
+        /// </summary>
+        /// <param name="sender">イベント発行元</param>
+        /// <param name="e">イベント引数</param>
+        private static void OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            temporaryData = null;
+            e.Handled = false;
+        }
+
+
         /// <summary>
         /// PreviewMouseMove イベントハンドラ
         /// アイテムを掴んだままマウスが動いたことを確認してドラッグ操作へ移行する
@@ -148,16 +167,6 @@ namespace TextConvert
             }
         }
 
-        /// <summary>
-        /// PreviewMouseLeftButtonUp イベントハンドラ
-        /// 単純にクリック操作されたときの処理
-        /// </summary>
-        /// <param name="sender">イベント発行元</param>
-        /// <param name="e">イベント引数</param>
-        private static void OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            temporaryData = null;
-        }
 
         /// <summary>
         /// PreviewDragEnter イベントハンドラ

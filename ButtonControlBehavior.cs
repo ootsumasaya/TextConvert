@@ -1,8 +1,17 @@
-﻿using System;
+﻿using Microsoft.Xaml.Behaviors;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Media;
 
+// 参考
+// https://qiita.com/soi/items/94b652850e5ad5394330
 namespace TextConvert
 {
     /// <summary>
@@ -12,105 +21,75 @@ namespace TextConvert
     {
 
 
-        #region Callback 添付プロパティ
-
         /// <summary>
-        /// Callback 添付プロパティの定義
+        /// 指定されたオブジェクトを含む行を親のItemsControlから削除する
         /// </summary>
-        public static readonly DependencyProperty CallbackProperty = DependencyProperty.RegisterAttached(
-            "Callback",
-            typeof(Action<int>),
+        public static void RemoveItemFromParent(DependencyObject elementInItem)
+        {
+            DependencyObject parent = elementInItem;
+            var parentTree = new List<DependencyObject> { parent };
+
+            //指定されたオブジェクトのVisualTree上の親を順番に探索し、ItemsControlを探す。
+            //ただし、DataGridは中間にいるDataGridCellsPresenterは無視する
+            while (parent != null && !(parent is ItemsControl) || parent is DataGridCellsPresenter)
+            {
+                parent = VisualTreeHelper.GetParent(parent);
+                parentTree.Add(parent);
+            }
+            if (!(parent is ItemsControl itemsControl))
+                return;
+
+            //ItemsControlの行にあたるオブジェクトを探索履歴の後ろから検索
+            var item = parentTree
+                .LastOrDefault(x => itemsControl.IsItemItsOwnContainer(x));
+
+            int? removeIndex = itemsControl.ItemContainerGenerator?.IndexFromContainer(item);
+
+            if (removeIndex == null || removeIndex < 0)
+                return;
+
+            //Bindingしていた場合はItemsSource、違うならItemsから削除する
+            IEnumerable targetList = (itemsControl.ItemsSource ?? itemsControl.Items);
+
+            switch (targetList)
+            {
+                case IList il:
+                    il.RemoveAt((int)removeIndex);
+                    return;
+                case IEditableCollectionView iECV:
+                    iECV.RemoveAt((int)removeIndex);
+                    return;
+            }
+        }
+
+
+
+
+
+        #region RemoveItem添付プロパティ
+        public static bool GetRemoveItem(DependencyObject obj) => (bool)obj.GetValue(RemoveItemProperty);
+        public static void SetRemoveItem(DependencyObject obj, bool value) => obj.SetValue(RemoveItemProperty, value);
+        public static readonly DependencyProperty RemoveItemProperty = DependencyProperty.RegisterAttached(
+            "RemoveItem",
+            typeof(bool),
             typeof(ButtonControlBehavior),
-            new PropertyMetadata(null, OnCallbackPropertyChanged)
+            new PropertyMetadata(default(bool), OnRemoveItemChanged)
             );
 
-        /// <summary>
-        /// Callback 添付プロパティを取得します。
-        /// </summary>
-        /// <param name="target">対象とする DependencyObject を指定します。</param>
-        /// <returns>取得した値を返します。</returns>
-        public static Action<int> GetCallback(DependencyObject target)
+        private static void OnRemoveItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            return (Action<int>)target.GetValue(CallbackProperty);
-        }
+            if (!(d is ButtonBase button))
+                return;
 
-        /// <summary>
-        /// Callback 添付プロパティを設定します。
-        /// </summary>
-        /// <param name="target">対象とする DependencyObject を指定します。</param>
-        /// <param name="value">設定する値を指定します。</param>
-        public static void SetCallback(DependencyObject target, Action<int> value)
-        {
-            target.SetValue(CallbackProperty, value);
-        }
+            if (!(e.NewValue is bool b))
+                return;
 
-        /// <summary>
-        /// Callback 添付プロパティ変更イベントハンドラ
-        /// </summary>
-        /// <param name="d">イベント発行元</param>
-        /// <param name="e">イベント引数</param>
-        private static void OnCallbackPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var itemsControl = d as ItemsControl;
-            if (itemsControl == null) return;
-
-            if (GetCallback(itemsControl) != null)
-            {
-                itemsControl.PreviewMouseLeftButtonUp += OnPreviewMouseLeftButtonUp;
-            }
+            if (b)
+                button.Click += RemoveItem;
             else
-            {
-                itemsControl.PreviewMouseLeftButtonUp -= OnPreviewMouseLeftButtonUp;
-            }
+                button.Click -= RemoveItem;
         }
-
-        #endregion Callback 添付プロパティ
-
-        #region イベントハンドラ
-
-        /// <summary>
-        /// 指定された FrameworkElement に対するテンプレートのルート要素を取得します。
-        /// </summary>
-        /// <param name="element">FrameworkElement を指定します。</param>
-        /// <returns>TemplatedParent を辿った先のルート要素を返します。</returns>
-        private static FrameworkElement GetTemplatedRootElement(FrameworkElement element)
-        {
-            var parent = element.TemplatedParent as FrameworkElement;
-            if (parent != null)
-            {
-                while (parent.TemplatedParent != null)
-                {
-                    parent = parent.TemplatedParent as FrameworkElement;
-                }
-                return parent;
-            }
-            else
-            {
-                return element;
-            }
-
-        }
-
-
-        /// <summary>
-        /// PreviewMouseLeftButtonUp イベントハンドラ
-        /// 単純にクリック操作されたときの処理
-        /// </summary>
-        /// <param name="sender">イベント発行元</param>
-        /// <param name="e">イベント引数</param>
-        private static void OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            var itemsControl = sender as ItemsControl;
-            var targetContainer = GetTemplatedRootElement(e.OriginalSource as FrameworkElement);
-            var index = itemsControl.ItemContainerGenerator.IndexFromContainer(targetContainer);
-            if (index >= 0)
-            {
-                var callback = GetCallback(itemsControl);
-                callback(index);
-            }
-        }
-
-
-        #endregion イベントハンドラ
+        private static void RemoveItem(object sender, RoutedEventArgs e) => RemoveItemFromParent(sender as DependencyObject);
+        #endregion
     }
 }

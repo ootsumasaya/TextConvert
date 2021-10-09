@@ -65,7 +65,7 @@ namespace TextConvert.ViewModels
             beforeViewModel = new BeforeViewModel(textModel).AddTo(compositeDisposable);
             //AfterViewModelの作成
             afterViewModel = new AfterViewModel(textModel).AddTo(compositeDisposable);
-            //ConvertViewModekの作成
+            //ConvertViewModelの作成
             convertViewModel = new ConvertViewModel(textModel).AddTo(compositeDisposable);
 
             //入力の変更の通知
