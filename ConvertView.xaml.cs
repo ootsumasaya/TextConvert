@@ -12,9 +12,5 @@ namespace TextConvert
             InitializeComponent();
         }
 
-        private void ConvertListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
     }
 }

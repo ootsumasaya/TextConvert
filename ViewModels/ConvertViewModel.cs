@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -14,13 +15,51 @@ using TextConvert.Models;
 
 namespace TextConvert.ViewModels
 {
-    class ConvertViewModel  : IDisposable
+    class ConvertViewModel  : IDisposable, INotifyPropertyChanged
     {
+        //変換指定のコレクション
+        public ObservableCollection<ConvertModel> _ConvertCollection = new ObservableCollection<ConvertModel>(){};
+        public ObservableCollection<ConvertModel> ConvertCollection { get { return this._ConvertCollection; } }
+
+        private int _currentIndex;
+        public int CurrentIndex
+        {
+            get { return this._currentIndex; }
+            set { SetProperty(ref this._currentIndex, value); }
+        }
+
+        public Action<int> DropCallback { get { return OnDrop; } }
+
+        private void OnDrop(int index)
+        {
+            if (index >= 0)
+            {
+                this.ConvertCollection.Move(this.CurrentIndex, index);
+            }
+        }
+
+        #region INotifyPropertyChanged のメンバ
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var h = this.PropertyChanged;
+            if (h != null) h(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private bool SetProperty<T>(ref T target, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (Equals(target, value)) return false;
+            target = value;
+            RaisePropertyChanged(propertyName);
+            return true;
+        }
+
+        #endregion INotifyPropertyChanged のメンバ
+
         //Disposableの集約
         public CompositeDisposable compositeDisposable { get; } = new CompositeDisposable();
-
-        //変換指定のコレクション
-        public ObservableCollection<ConvertModel> ConvertCollection { get;}
 
         //ListBoxの選択時の動作
         public ReactiveCommand<int> ConvertListSelectionCommand { get; }
@@ -45,8 +84,6 @@ namespace TextConvert.ViewModels
 
         public ConvertViewModel(TextModel textModel)
         {
-            //変換指定のコレクション
-            ConvertCollection = new ObservableCollection<ConvertModel>();
 
             //コレクション選択時にそのインデックスを格納
             ConvertListSelectionCommand = new ReactiveCommand<int>();
