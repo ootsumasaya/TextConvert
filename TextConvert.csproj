@@ -64,6 +64,7 @@
     <Compile Include="BeforeTextView.xaml.cs">
       <DependentUpon>BeforeTextView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ButtonControlBehavior.cs" />
     <Compile Include="ConvertView.xaml.cs">
       <DependentUpon>ConvertView.xaml</DependentUpon>
     </Compile>

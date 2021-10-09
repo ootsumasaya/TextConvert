@@ -90,6 +90,7 @@ namespace TextConvert
 
         /// <summary>
         /// PreviewMouseLeftButtonDown イベントハンドラ
+        /// 掴むアイテムを捕捉する
         /// </summary>
         /// <param name="sender">イベント発行元</param>
         /// <param name="e">イベント引数</param>
@@ -117,12 +118,18 @@ namespace TextConvert
                 {
                     parent = parent.TemplatedParent as FrameworkElement;
                 }
+                return parent;
             }
-            return parent;
+            else
+            {
+                return element;
+            }
+            
         }
 
         /// <summary>
         /// PreviewMouseMove イベントハンドラ
+        /// アイテムを掴んだままマウスが動いたことを確認してドラッグ操作へ移行する
         /// </summary>
         /// <param name="sender">イベント発行元</param>
         /// <param name="e">イベント引数</param>
@@ -143,6 +150,7 @@ namespace TextConvert
 
         /// <summary>
         /// PreviewMouseLeftButtonUp イベントハンドラ
+        /// 単純にクリック操作されたときの処理
         /// </summary>
         /// <param name="sender">イベント発行元</param>
         /// <param name="e">イベント引数</param>
@@ -153,31 +161,37 @@ namespace TextConvert
 
         /// <summary>
         /// PreviewDragEnter イベントハンドラ
+        /// コントロール外からコントロール内に入ったときの処理
         /// </summary>
         /// <param name="sender">イベント発行元</param>
         /// <param name="e">イベント引数</param>
         private static void OnPreviewDragEnter(object sender, DragEventArgs e)
         {
+            if (temporaryData == null) return;
             temporaryData.IsDroppable = true;
         }
 
         /// <summary>
         /// PreviewDragLeave イベントハンドラ
+        /// コントロール外にはみ出たときの処理
         /// </summary>
         /// <param name="sender">イベント発行元</param>
         /// <param name="e">イベント引数</param>
         private static void OnPreviewDragLeave(object sender, DragEventArgs e)
         {
+            if (temporaryData == null) return;
             temporaryData.IsDroppable = false;
         }
 
         /// <summary>
         /// PreviewDrop イベントハンドラ
+        /// ドロップされたときの処理
         /// </summary>
         /// <param name="sender">イベント発行元</param>
         /// <param name="e">イベント引数</param>
         private static void OnPreviewDrop(object sender, DragEventArgs e)
         {
+            if (temporaryData == null) return;
             if (temporaryData.IsDroppable)
             {
                 var itemsControl = sender as ItemsControl;

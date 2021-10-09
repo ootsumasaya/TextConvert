@@ -56,15 +56,18 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                    </GridView>
 
+                        <GridViewColumn>
+                            <GridViewColumnHeader Content="削除"/>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="×"
+                                            x:Name="DeleteButton"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
                 </ListView.View>
-                <bh:Interaction.Triggers>
-                    <bh:EventTrigger EventName="SelectionChanged">
-                        <bh:InvokeCommandAction Command="{Binding ConvertListSelectionCommand}"
-                                                CommandParameter="{Binding ElementName=ConvertListView, Path=SelectedIndex}" />
-                    </bh:EventTrigger>
-                </bh:Interaction.Triggers>
             </ListView>
             
             

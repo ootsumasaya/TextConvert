@@ -21,13 +21,15 @@ namespace TextConvert.ViewModels
         public ObservableCollection<ConvertModel> _ConvertCollection = new ObservableCollection<ConvertModel>(){};
         public ObservableCollection<ConvertModel> ConvertCollection { get { return this._ConvertCollection; } }
 
-        private int _currentIndex;
+        //リストのインデックス
+        private int _CurrentIndex;
         public int CurrentIndex
         {
-            get { return this._currentIndex; }
-            set { SetProperty(ref this._currentIndex, value); }
+            get { return this._CurrentIndex; }
+            set { SetProperty(ref this._CurrentIndex, value); }
         }
 
+        //ドロップしたときの動作
         public Action<int> DropCallback { get { return OnDrop; } }
 
         private void OnDrop(int index)
@@ -38,25 +40,16 @@ namespace TextConvert.ViewModels
             }
         }
 
-        #region INotifyPropertyChanged のメンバ
+        //×ボダンを押したときの動作
+        public Action<int> DeleteCallBack { get { return OnDelete; } }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnDelete(int index)
         {
-            var h = this.PropertyChanged;
-            if (h != null) h(this, new PropertyChangedEventArgs(propertyName));
+            if(index >= 0)
+            {
+                this.ConvertCollection.RemoveAt(index);
+            }
         }
-
-        private bool SetProperty<T>(ref T target, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (Equals(target, value)) return false;
-            target = value;
-            RaisePropertyChanged(propertyName);
-            return true;
-        }
-
-        #endregion INotifyPropertyChanged のメンバ
 
         //Disposableの集約
         public CompositeDisposable compositeDisposable { get; } = new CompositeDisposable();
@@ -145,6 +138,28 @@ namespace TextConvert.ViewModels
             }
             return beforetext;
         }
+
+
+        #region INotifyPropertyChanged のメンバ
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var h = this.PropertyChanged;
+            if (h != null) h(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private bool SetProperty<T>(ref T target, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (Equals(target, value)) return false;
+            target = value;
+            RaisePropertyChanged(propertyName);
+            return true;
+        }
+
+        #endregion INotifyPropertyChanged のメンバ
+
 
         public void Dispose()
         {
