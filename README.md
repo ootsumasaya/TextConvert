@@ -6,14 +6,19 @@
 # ScreenShot
 初期画面
 
-<img width="393" alt="初期画面" src="https://user-images.githubusercontent.com/32339438/134787993-17ecb0a5-c439-48b5-9c4f-ecd7ec80c7eb.PNG">
+![初期画面](https://user-images.githubusercontent.com/32339438/139230250-0772f1f2-6873-4985-a174-b50bb17df809.PNG)
 
 
 
 入力例
 
-<img width="393" alt="入力例" src="https://user-images.githubusercontent.com/32339438/134787996-8314c670-c9a8-450f-8096-c986dc0bda8f.PNG">
+![入力例](https://user-images.githubusercontent.com/32339438/139230271-274f1ea2-1c60-4514-b70c-202e519339f9.PNG)
 
+![入力例2](https://user-images.githubusercontent.com/32339438/139230281-cbfdd468-ab28-4722-bea8-1e9305d1970e.PNG)
+
+変換文字の入力、並び替え、削除
+
+![Animation](https://user-images.githubusercontent.com/32339438/139230410-1cbf5538-656f-4c38-9527-3348af1b4674.gif)
 
 
 # 使い方
@@ -43,6 +48,8 @@
 
 ・改行を変換したい場合は、テキストボックスにそのまま改行を入力してください
 
+# ver2.1
+・変換文字指定ウィンドウをタブ化し、並び替えができるようにしました。
 
 # ver2.0
 ・改行文字を指定できるようになりました。
